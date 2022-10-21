@@ -25,7 +25,7 @@ def get_elasticsearchdata():
     query = {
         "query": {
             "wildcard": {
-                "pageurl.keyword": "*/account/login*"
+                "error.keyword": "*Usage Denied*"
             }
         }
     }
