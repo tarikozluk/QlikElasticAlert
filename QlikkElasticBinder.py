@@ -97,15 +97,16 @@ df['@timestamp'] = df['@timestamp'].loc[condition]
 # df['@timestamp'].remove(np.nan)
 print(df['@timestamp'])
 # print(df['@timestamp'])
-print(len(df['@timestamp']))
-if len(df['@timestamp']) < 1:
+print(len(df['@timestamp'].dropna()))
+
+if len(df['@timestamp'].dropna()) < 1:
     exit()
 # else:
 # print("capacity okey")
 try:
     # standarts = df['@timestamp'].loc[condition].dropna()
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Qlik Elastic Binder"
+    msg['Subject'] = "Dboard Elastic Alert"
     msg['From'] = os.getenv("FROM_PART")
     msg['To'] = os.getenv("TO_PART")
     smtp = smtplib.SMTP(os.getenv("IP_SMTP"), os.getenv("PORT_SMTP"))
@@ -134,17 +135,17 @@ try:
     smtp.quit()
 
     print("Email sent successfully!")
-    # lines = ["Responsiblity Checker",
-    #         'E-Mail: Sent Successfuly to {}:_{}'.format(os.getenv("PLATFORM_EKIP"), datetime.now().date())]
-    # with open('Responsiblity Sender Info_{}.txt'.format(datetime.now().date()), 'w') as f:
-    #    for line in lines:
-    #        f.write(line)
-    #        f.write('\n')
+    lines = ["Dboard Info",
+             'E-Mail: Sent Successfuly to DWH Team:_{}'.format(datetime.now().date())]
+    with open('Dboard Info_{}.txt'.format(datetime.now().date()), 'w') as f:
+        for line in lines:
+            f.write(line)
+            f.write('\n')
 except Exception as ex:
-    errorlines = ["Responsiblity Checker",
-                  'E-Mail: Sent Failed to {}:_{}'.format(os.getenv("PLATFORM_EKIP"), datetime.now().date())]
+    errorlines = ["Dboard Infor",
+                  'E-Mail: Sent Failed to DWH Team:_{}'.format(datetime.now().date())]
     print("Something went wrong....", ex)
-    # with open('Responsiblity Sender Info_{}.txt'.format(datetime.now().date()), 'w') as f:
-    #    for line in errorlines:
-    #        f.write(line)
-    #        f.write('\n')
+    with open('Dboard Error Info_{}.txt'.format(datetime.now().date()), 'w') as f:
+        for line in errorlines:
+            f.write(line)
+            f.write('\n')
